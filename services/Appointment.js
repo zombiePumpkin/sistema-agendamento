@@ -1,5 +1,6 @@
 // Dependencias
 const mongoose = require('mongoose')
+const AppointmentFactory = require('../factories/Appointment')
 
 // Modelo
 const AppointmentSchema = require('../models/Appointment')
@@ -15,6 +16,35 @@ class Appointment {
     } catch (err) {
       console.log(err)
       return false
+    }
+  }
+
+  async GetAll(showFinished) {
+    try {
+      if (showFinished) {
+        return AppointmentModel.find()
+      } else {
+        const appointmentSearch = await AppointmentModel.find({ 'isFinished': false })
+        const appointmentList = []
+        appointmentSearch.forEach(appointment => {
+          if (appointment.date && appointment.time) {
+            appointmentList.push(AppointmentFactory.Build(appointment))
+          }
+        })
+        return appointmentList
+      }
+    } catch(err) {
+      console.log(err)
+      return false
+    }
+  }
+
+  async GetById(id) {
+    try {
+      const appointment = await AppointmentModel.findOne({ '_id': id })
+      return appointment
+    } catch (err) {
+      console.log(err)
     }
   }
 }
