@@ -7,6 +7,7 @@ const Appointment = new mongoose.Schema({
   email: String,
   description: String,
   cpf: String,
+  date: Date,
   time: String,
   isFinished: Boolean
 })
