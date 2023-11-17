@@ -20,13 +20,19 @@ mongoose.connect('mongodb://127.0.0.1:27017/agendamento')
 
 // Roteamento
 app.get('/', (req, res) => {
-  res.send('API rodando com sucesso!')
+  res.render('index')
 })
 
 app.get('/cadastro', (req, res) => {
   res.render('create')
 })
 
+app.get('/event/:id', async (req, res) => {
+  const appointment = await AppointmentService.GetById(req.params.id)
+  res.render('event', { appointment })
+})
+
+// Controladores
 app.post('/create', async (req, res) => {
   const status = await AppointmentService.Create(
     req.body.name,
@@ -40,6 +46,17 @@ app.post('/create', async (req, res) => {
   if (status) {
     console.log('show de bola!')
     res.redirect('/')
+  } else {
+    res.send('Deu ruim!')
+  }
+})
+
+app.get('/search', async (req, res) => {
+  const status = await AppointmentService.GetAll(false)
+
+  if (status) {
+    console.log('show de bola!')
+    res.json(status)
   } else {
     res.send('Deu ruim!')
   }
