@@ -12,6 +12,7 @@ class Appointment {
       title: `${appointment.name} - ${appointment.description}`,
       start: startDate,
       end: startDate,
+      isNotified: appointment.isNotified
     }
   }
 }
