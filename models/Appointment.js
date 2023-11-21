@@ -9,7 +9,8 @@ const Appointment = new mongoose.Schema({
   cpf: String,
   date: Date,
   time: String,
-  isFinished: Boolean
+  isFinished: Boolean,
+  isNotified: Boolean
 })
 
 // Exportando o Schema como um módulo
